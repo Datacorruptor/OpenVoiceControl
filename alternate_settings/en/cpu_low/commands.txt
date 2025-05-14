@@ -1,0 +1,12 @@
+open youtube::python open_url.py https://youtube.com
+open browser::python open_url.py ""
+open calculator::calc
+open terminal::start cmd /c cmd
+open command prompt::start cmd /c cmd
+open explorer::explorer
+open word::start winword
+open excel::start excel
+open powerpoint::start powerpnt
+open discord::"%APPDATA%\Microsoft\Windows\Start Menu\Programs\Discord Inc\Discord.lnk"
+play track @1 in discord::python find_and_play_track_discord_qiqi.py "@1"
+google @1 in the browser::python open_url.py "https://www.google.com/search?q=@1"
