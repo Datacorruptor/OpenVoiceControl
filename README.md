@@ -80,3 +80,9 @@ google @1 in the browser::python open_url.py "https://www.google.com/search?q=@1
 - Verify model files exist
 - Enable debug prints
 - Check file formatting
+
+## Common errors
+`Error: Could not locate cudnn_ops_infer64_8.dll. Please make sure it is in your library path!`
+DLLs can be downloaded [here](https://github.com/Purfview/whisper-standalone-win/releases/tag/libs)
+
+
