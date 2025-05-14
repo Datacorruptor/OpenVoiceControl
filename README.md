@@ -69,7 +69,7 @@ google @1 in the browser::python open_url.py "https://www.google.com/search?q=@1
 | `audio_device_id`          | Device ID or `-1`             | Microphone input device (-1 shows selection dialog) |
 | `sample_rate`              | Typically `16000` or `44100`           | Audio sampling rate in Hz |
 | `audio_channels`           | `1` (mono) or `2` (stereo)             | Audio channels |
-| `trigger_word_wait_time`   | Number of cycles (-1 for infinite)| How long to wait for command after trigger word |
+| `trigger_word_wait_time`   | Number of cycles (-1 for infinite)| How long to wait for command after trigger word, each cycle takes chunk_size_seconds-2\*overlap_size_seconds rounded to the nearest audio_block_size_seconds (0.7 seconds for default config) |
 | `chunk_size_seconds`       | any float      | Audio chunk size for processing, the bigger the longer activation phrases could be |
 | `overlap_size_seconds`     | any float ( < than chunk_size_seconds/2 )                       | Relative overlap between audio chunks |
 | `audio_block_size_seconds` | any float                        | Audio capture block size |
