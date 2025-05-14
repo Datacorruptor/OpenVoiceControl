@@ -1,0 +1,13 @@
+language_code:ru
+debug_prints:True
+debug_time_prints:True
+torch_device:cpu
+model_name:tiny
+compute_type:int8
+audio_device_id:-1
+trigger_word_wait_time:-1
+chunk_size_seconds:5
+overlap_size_seconds:2
+audio_block_size_seconds:1.0
+sample_rate:16000
+audio_channels:1

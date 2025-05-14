@@ -1,0 +1,13 @@
+language_code:en
+debug_prints:True
+debug_time_prints:True
+torch_device:cuda
+model_name:large-v3
+compute_type:float32
+audio_device_id:-1
+trigger_word_wait_time:-1
+chunk_size_seconds:5
+overlap_size_seconds:2.15
+audio_block_size_seconds:0.7
+sample_rate:16000
+audio_channels:1
