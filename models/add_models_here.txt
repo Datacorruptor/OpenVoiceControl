@@ -1,0 +1,17 @@
+download folder from huggingface containing model.bin file
+place all files into folder, naming it like model size
+for exemple if you want to use large-v3 model
+you need to arrange files like this
+
+OpenVoiceControl
+|
+\--- Models
+     |
+     \--- large-v3
+          |
+          |--- model.bin
+          |--- config.json
+          |--- preprocessor_config.json
+          |--- tokenizer.json
+          \--- vocabulary.json
+
