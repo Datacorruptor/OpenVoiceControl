@@ -6,8 +6,8 @@ model_name:medium
 compute_type:int8
 audio_device_id:-1
 trigger_word_wait_time:-1
-chunk_size_seconds:5
-overlap_size_seconds:2
+chunk_size_seconds:10
+overlap_size_seconds:4.5
 audio_block_size_seconds:1.0
 sample_rate:16000
 audio_channels:1
