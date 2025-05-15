@@ -82,7 +82,13 @@ google @1 in the browser::python open_url.py "https://www.google.com/search?q=@1
 - Check file formatting
 
 ## Common errors
-`Error: Could not locate cudnn_ops_infer64_8.dll. Please make sure it is in your library path!`
+`Could not locate cudnn_ops_infer64_8.dll. Please make sure it is in your library path!`
 DLLs can be downloaded [here](https://github.com/Purfview/whisper-standalone-win/releases/tag/libs)
+ 
+`cudaErrorNoKernelImageForDevice: no kernel image is available for execution on the device`
+Your GPU is too old for ctranslate2 version 4
+You could try [this](https://github.com/m-bain/whisperX/issues/794#issuecomment-2103963143) workaround
+
+
 
 
