@@ -22,6 +22,7 @@ import sklearn.calibration
 import speechbrain.dataio
 import speechbrain.utils
 import speechbrain
+import keyboard
 
 import queue
 import os
@@ -43,6 +44,9 @@ def parse_config(path):
 
     config["debug_prints"] = config["debug_prints"] == "True"
     config["debug_time_prints"] = config["debug_time_prints"] == "True"
+    config["push_to_talk"] = config["push_to_talk"] == "True"
+
+    config["push_to_talk_button"] = config["push_to_talk_button"].split("+")
 
     print(config["debug_prints"])
 
@@ -291,28 +295,62 @@ if __name__ == "__main__":
         pr_word = ""
         last_cmd = ""
         while True:
+
+            all_pressed = True
+            for k in config["push_to_talk_button"]:
+                if not keyboard.is_pressed(k):
+                    all_pressed = False
+                    break
+
+            if not all_pressed and config["push_to_talk"]:
+                if config["debug_time_prints"]:
+                    print("sleeping, waiting for push-to-talk")
+                last_cmd = ""
+                time.sleep(0.5)
+                prev_overlap = np.empty((0, 1))
+                continue
+
             tt1 = time.time()
             required_new_samples = int((float(config["chunk_size_seconds"]) - float(config["overlap_size_seconds"])) * int(config["sample_rate"]))
+
             audio = prev_overlap.copy()
 
-            while audio.shape[0] < required_new_samples:
+            if audio_queue.empty():
+                time.sleep(0.1)
+                continue
+
+
+            while not audio_queue.empty():
                 audio = np.vstack([audio, audio_queue.get()])
 
-            audio = audio[:int(float(config["chunk_size_seconds"]) * int(config["sample_rate"]))]
-            prev_overlap = audio[-int(float(config["overlap_size_seconds"]) * int(config["sample_rate"])):]
+            chunk_cutoff = int(float(config["chunk_size_seconds"]) * int(config["sample_rate"]))
+            overlap_cutoff = int(float(config["overlap_size_seconds"]) * int(config["sample_rate"]))
+            audio = audio[:min(chunk_cutoff,audio.shape[0]-1)]
+            prev_overlap = audio[-min(overlap_cutoff,audio.shape[0]-1):]
 
             # Convert to FP32 tensor
             audio_tensor = torch.from_numpy(audio.flatten().astype(np.float32))
 
             try:
 
-                if config["debug_time_prints"] or config["debug_prints"]:
-                    print("===============================================")
+
 
                 t1 = None
                 if config["debug_time_prints"]:
                     t1 = time.time()
                 result = model.transcribe(audio_tensor.numpy(), batch_size=4)
+
+                if (len(result['segments']) == 0
+                        or "DimaTorzok" in result['segments'][0]['text']
+                        or "Продолжение следует..." in result['segments'][0]['text']):
+                    if config["debug_prints"]:
+                        print("No speech...",end="", flush=True)
+                    last_cmd = ""
+                    continue
+
+                if config["debug_time_prints"] or config["debug_prints"]:
+                    print("===============================================")
+
                 if config["debug_time_prints"]:
                     t2 = time.time()
                     print("model inference time", t2-t1)
@@ -325,12 +363,7 @@ if __name__ == "__main__":
                     print("last command: ",last_cmd)
 
 
-                if (len(result['segments']) == 0
-                        or "DimaTorzok" in result['segments'][0]['text']
-                        or "Продолжение следует..." in result['segments'][0]['text']):
-                    print("No speech found in audio")
-                    last_cmd = ""
-                    continue
+
 
                 triggered, last_cmd, trigger_word_wait = handle_audio_segments(
                     config,

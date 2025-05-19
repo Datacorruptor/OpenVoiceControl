@@ -11,3 +11,5 @@ overlap_size_seconds:4.65
 audio_block_size_seconds:0.7
 sample_rate:16000
 audio_channels:1
+push_to_talk:False
+push_to_talk_button:ctrl+e
