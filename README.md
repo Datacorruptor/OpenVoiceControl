@@ -73,6 +73,8 @@ google @1 in the browser::python open_url.py "https://www.google.com/search?q=@1
 | `chunk_size_seconds`       | any float      | Audio chunk size for processing, the bigger the longer activation phrases could be |
 | `overlap_size_seconds`     | any float ( < than chunk_size_seconds/2 )                       | Relative overlap between audio chunks |
 | `audio_block_size_seconds` | any float                        | Audio capture block size |
+| `push_to_talk` | `True`/`False`                       | Enable push-to-talk (programm will react only if you are pressing the `push_to_talk_button`) |
+| `push_to_talk_button` | key or combination of keys separated by +                        | if pressed programm will react to audio (only if `push_to_talk` is set to true) |
 
 
 ## Troubleshooting
