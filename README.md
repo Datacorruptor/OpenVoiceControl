@@ -2,8 +2,8 @@
 
 ## Overview
 A voice-activated assistant that:
-1. Listens for trigger words from `triggerwords.txt`
-2. Processes follow-up commands from `commands.txt`
+1. Listens for trigger words from `settings/triggerwords.txt`
+2. Processes follow-up commands from `settings/commands.txt`
 3. Executes corresponding system commands
 4. Supports dynamic arguments in commands
 
@@ -12,26 +12,26 @@ A voice-activated assistant that:
 2. Download [faster whisper](https://huggingface.co/Systran) models
 3. Place in `models/[model_size]`
 4. Configure your:
-   - `triggerwords.txt`
-   - `commands.txt`
-   - `config.txt`
+   - `settings/triggerwords.txt`
+   - `settings/commands.txt`
+   - `settings/config.txt`
 5. run `main.py`
 
 ## How to Use
 1. Speak any trigger word
 2. Program will listen for a command
-3. If command is found programm will match it against `commands.txt`
+3. If command is found programm will match it against `settings/commands.txt`
 4. And then programm will execute corresponding system command
 
 ## File Specifications
 
-### triggerwords.txt
+### settings/triggerwords.txt
 - **Format**: Comma-separated phrases
 - **Example**:
 ```
 voice control,voicecontrol,voices control,voicescontrol
 ```
-### commands.txt
+### settings/commands.txt
 - **Format**: `activation_phrase::system_command`
 - **Arguments**: Use `@1`, `@2`, etc.
 - **Examples**:
@@ -49,7 +49,7 @@ google @1 in the browser::python open_url.py "https://www.google.com/search?q=@1
    - Phrase cannot end with argument
    - Unique text before first argument
 
-### сonfig.txt
+### settings/сonfig.txt
 
 | Parameter                    | Valid Options                          | Description |
 |----------------------------|----------------------------------------|-------------|
@@ -66,15 +66,19 @@ google @1 in the browser::python open_url.py "https://www.google.com/search?q=@1
 | `compute_type`             | `int8`,`float16`,`float32`         | Computation precision (affects speed/accuracy) |
 |                            |                                        |             |
 | **Audio Settings**         |                                        |             |
-| `audio_device_id`          | Device ID or `-1`             | Microphone input device (-1 shows selection dialog) |
+| `audio_device_input_id`          | Device ID or `-1`             | Microphone input device (-1 shows selection dialog) |
+| `audio_device_output_id`          | Device ID or `-1`             | Headphones/Speakers output device (-1 shows selection dialog) |
 | `sample_rate`              | Typically `16000` or `44100`           | Audio sampling rate in Hz |
 | `audio_channels`           | `1` (mono) or `2` (stereo)             | Audio channels |
 | `trigger_word_wait_time`   | Number of cycles (-1 for infinite)| How long to wait for command after trigger word, each cycle takes chunk_size_seconds-2\*overlap_size_seconds rounded to the nearest audio_block_size_seconds (0.7 seconds for default config) |
 | `chunk_size_seconds`       | any float      | Audio chunk size for processing, the bigger the longer activation phrases could be |
 | `overlap_size_seconds`     | any float ( < than chunk_size_seconds/2 )                       | Relative overlap between audio chunks |
 | `audio_block_size_seconds` | any float                        | Audio capture block size |
-| `push_to_talk` | `True`/`False`                       | Enable push-to-talk (programm will react only if you are pressing the `push_to_talk_button`) |
-| `push_to_talk_button` | key or combination of keys separated by +                        | if pressed programm will react to audio (only if `push_to_talk` is set to true) |
+| `push_to_talk_enabled` | `True`/`False`                       | Enable push-to-talk (programm will react only if you are pressing the `push_to_talk_button`) |
+| `push_to_talk_toggle_button` | key or combination of keys separated by +                        | if pressed programm will react to audio (only if `push_to_talk_enabled` is set to true) |
+| `play_sound_triggerword` | `True`/`False`                          | play audio if triggerword is found |
+| `play_sound_command` | `True`/`False`                        | play audio if command is executed |
+| `typing_mode_toggle_button` | key or combination of keys separated by +                        | if pressed programm will switch typing mode (all audio will be ryped by your keyboard) |
 
 
 ## Troubleshooting
