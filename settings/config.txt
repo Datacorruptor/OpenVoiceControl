@@ -4,8 +4,8 @@ debug_time_prints:True
 torch_device:cuda
 model_name:large-v3
 compute_type:float32
-audio_device_input_id:4
-audio_device_output_id:7
+audio_device_input_id:-1
+audio_device_output_id:-1
 trigger_word_wait_time:-1
 chunk_size_seconds:10
 overlap_size_seconds:4.65
